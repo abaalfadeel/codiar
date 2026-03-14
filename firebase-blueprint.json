@@ -1,0 +1,124 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A registered user of the platform",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The unique user ID from Firebase Auth"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's full name"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "client"],
+          "description": "The user's role"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the user account was created"
+        }
+      },
+      "required": ["uid", "email", "displayName", "role", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "An order placed by a user",
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "A unique, human-readable order ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user who placed the order"
+        },
+        "serviceId": {
+          "type": "string",
+          "description": "The ID of the service ordered"
+        },
+        "serviceTitle": {
+          "type": "string",
+          "description": "The title of the service ordered"
+        },
+        "projectType": {
+          "type": "string",
+          "description": "The type of project"
+        },
+        "complexity": {
+          "type": "string",
+          "description": "The complexity level"
+        },
+        "extras": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Selected extras"
+        },
+        "total": {
+          "type": "number",
+          "description": "The total price of the order"
+        },
+        "detailedDesc": {
+          "type": "string",
+          "description": "Detailed description of the project"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "paid", "active", "expired"],
+          "description": "The current status of the order"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the order was placed"
+        },
+        "validFrom": {
+          "type": "timestamp",
+          "description": "When the subscription starts (if active)"
+        },
+        "validUntil": {
+          "type": "timestamp",
+          "description": "When the subscription expires (if active)"
+        },
+        "clientEmail": {
+          "type": "string",
+          "description": "The client's email"
+        },
+        "clientPhone": {
+          "type": "string",
+          "description": "The client's phone number"
+        }
+      },
+      "required": ["orderId", "userId", "serviceId", "serviceTitle", "projectType", "complexity", "extras", "total", "status", "createdAt", "clientEmail", "clientPhone"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "Stores user profiles"
+    },
+    "/orders/{orderId}": {
+      "schema": {
+        "$ref": "#/entities/Order"
+      },
+      "description": "Stores all orders"
+    }
+  }
+}
